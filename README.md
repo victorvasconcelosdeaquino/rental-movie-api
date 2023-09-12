@@ -1,13 +1,14 @@
 # rental-movie-api
 
 ### Requirements
+- [.Net Framework 5.0](https://dotnet.microsoft.com/pt-br/download/dotnet/5.0)
 - [SqlServer Express](https://go.microsoft.com/fwlink/p/?linkid=2216019&clcid=0x416&culture=pt-br&country=br)
 - [EF Core Tools](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 
-### Instalation
+### Installation
 1. Install SQL Server Express
 2. Connect to Server using Windows Authentication
-3. Run the scripts bellow:
+3. Run the scripts below:
 ```
 create database db_rental;
 
@@ -40,7 +41,7 @@ GO
 ALTER ROLE [db_owner] ADD MEMBER [rental]
 GO
  ```
-4. Disconnect and connect to server using SQL Server Authentication (user: rental, pass: rental@123). Note: There is a possibility you may not able to connect using SQL Server Authentication if the option "Server Authentication 'SQL Server and Windows Authentication mode'" isn't enabled on Server Properties
+4. Disconnect and connect to the server using SQL Server Authentication (user: rental, pass: rental@123). Note: There is a possibility you may not able to connect using SQL Server Authentication if the option "Server Authentication 'SQL Server and Windows Authentication mode'" isn't enabled on Server Properties
 
 ### Migration
 1. Clone the repository to your computer
