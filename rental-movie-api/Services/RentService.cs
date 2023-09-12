@@ -15,7 +15,7 @@ namespace rental_movie_api.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Rent>> GetRents()
+        public async Task<IEnumerable<Rent>> GetRentals()
         {
             return await _repository.GetAll();
         }

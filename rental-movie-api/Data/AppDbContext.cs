@@ -9,7 +9,7 @@ namespace rental_movie_api.Data
 
         public DbSet<Movie>? Movies { get; set; }
         public DbSet<Genre>? Genres { get; set; }
-        public DbSet<Rent>? Rents { get; set; }
+        public DbSet<Rent>? Rentals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

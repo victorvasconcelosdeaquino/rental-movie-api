@@ -33,7 +33,7 @@ namespace rental_movie_api.Controllers
         {
             try
             {
-                var rents = await _service.GetRents();
+                var rents = await _service.GetRentals();
                 return Ok(rents);
             }
             catch (Exception)

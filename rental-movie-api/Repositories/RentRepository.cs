@@ -19,14 +19,14 @@ namespace rental_movie_api.Repositories
 
         public async Task<IEnumerable<Rent>> GetAll()
         {
-            return await _dbContext.Rents.ToListAsync();
+            return await _dbContext.Rentals.ToListAsync();
         }
 
         public async Task<Rent> GetById(int id)
         {
-            var rent = await _dbContext.Rents.FindAsync(id);
+            var rent = await _dbContext.Rentals.FindAsync(id);
             if (rent is null)
-                throw new NotFoundException("No genre found");
+                throw new NotFoundException("No rent found");
             return rent;
         }
 
@@ -34,24 +34,24 @@ namespace rental_movie_api.Repositories
         {
             //Todo: create a validation to check if the movie is able to rent based on devolution date
 
-            await _dbContext.Rents.AddAsync(model);
+            await _dbContext.Rentals.AddAsync(model);
             await _dbContext.SaveChangesAsync();
             return model;
         }
 
         public async Task Delete(int id)
         {
-            var rent = await _dbContext.Rents.FindAsync(id);
+            var rent = await _dbContext.Rentals.FindAsync(id);
             if (rent is null)
                 throw new NotFoundException("No rent found");
 
-            _dbContext.Rents.Remove(rent);
+            _dbContext.Rentals.Remove(rent);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task Update(Rent model)
         {
-            var rent = await _dbContext.Rents.FindAsync(model.Id);
+            var rent = await _dbContext.Rentals.FindAsync(model.Id);
             if (rent is null)
                 throw new NotFoundException("No rent found");
 
