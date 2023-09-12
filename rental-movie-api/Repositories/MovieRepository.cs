@@ -6,6 +6,7 @@ using rental_movie_api.Exceptions;
 using rental_movie_api.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 
@@ -22,12 +23,19 @@ namespace rental_movie_api.Repositories
 
         public async Task<IEnumerable<Movie>> GetAll()
         {
-            return await _dbContext.Movies.ToListAsync();
+            return await _dbContext.Movies
+                .Where(movie => movie.IsActive)
+                .ToListAsync();
         }
 
         public async Task<Movie> GetById(int id)
         {
-            var movie = await _dbContext.Movies.FindAsync(id);
+            var movie = await _dbContext.Movies
+                .Where(movie => movie.IsActive && movie.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (movie is null)
+                throw new NotFoundException("No movie found");
             return movie;
         }
 
@@ -57,7 +65,10 @@ namespace rental_movie_api.Repositories
 
         public async Task Delete(int id)
         {
-            var movie = await _dbContext.Movies.FindAsync(id);
+            var movie = await _dbContext.Movies
+                .Where(movie => movie.IsActive && movie.Id == id)
+                .FirstOrDefaultAsync();
+
             if (movie is null)
                 throw new NotFoundException("No movie found");
 
@@ -67,7 +78,10 @@ namespace rental_movie_api.Repositories
 
         public async Task Update(Movie model)
         {
-            var movie = await _dbContext.Movies.FindAsync(model.Id);
+            var movie = await _dbContext.Movies
+                .Where(movie => movie.IsActive && movie.Id == model.Id)
+                .FirstOrDefaultAsync();
+
             if (movie is null)
                 throw new NotFoundException("No movie found");
 
@@ -82,7 +96,10 @@ namespace rental_movie_api.Repositories
         {
             foreach (var id in ids)
             {
-                var movie = await _dbContext.Movies.FindAsync(id);
+                var movie = await _dbContext.Movies
+                .Where(movie => movie.IsActive && movie.Id == id)
+                .FirstOrDefaultAsync();
+
                 if (movie is null)
                     throw new NotFoundException("No genre found");
 

@@ -5,8 +5,8 @@ using rental_movie_api.Exceptions;
 using rental_movie_api.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace rental_movie_api.Repositories
 {
@@ -21,12 +21,17 @@ namespace rental_movie_api.Repositories
 
         public async Task<IEnumerable<Genre>> GetAll()
         {
-            return await _dbContext.Genres.ToListAsync();
+            return await _dbContext.Genres
+                .Where(genre => genre.IsActive)
+                .ToListAsync(); ;
         }
 
         public async Task<Genre> GetById(int id)
         {
-            var genre = await _dbContext.Genres.FindAsync(id);
+            var genre = await _dbContext.Genres
+                .Where(genre => genre.IsActive && genre.Id == id)
+                .FirstOrDefaultAsync();
+
             if (genre is null)
                 throw new NotFoundException("No genre found");
             return genre;
@@ -43,7 +48,10 @@ namespace rental_movie_api.Repositories
 
         public async Task Delete(int id)
         {
-            var genre = await _dbContext.Genres.FindAsync(id);
+            var genre = await _dbContext.Genres
+                .Where(genre => genre.IsActive && genre.Id == id)
+                .FirstOrDefaultAsync();
+
             if (genre is null)
                 throw new NotFoundException("No genre found");
 
@@ -53,7 +61,10 @@ namespace rental_movie_api.Repositories
 
         public async Task Update(Genre model)
         {
-            var genre = await _dbContext.Genres.FindAsync(model.Id);
+            var genre = await _dbContext.Genres
+                .Where(genre => genre.IsActive && genre.Id == model.Id)
+                .FirstOrDefaultAsync();
+
             if (genre is null)
                 throw new NotFoundException("No genre found");
 
