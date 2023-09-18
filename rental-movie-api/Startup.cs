@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using rental_movie_api.Data;
+using rental_movie_api.Extensions;
 using rental_movie_api.Interfaces.Services;
 using rental_movie_api.ServiceExtensions;
 using rental_movie_api.Services;
@@ -110,12 +111,22 @@ namespace rental_movie_api
                 app.UseSwaggerUI();
             }
 
+            //adds error handling middleware
+            app.ConfigureExceptionHandler();
+
+            //adds the middlewate to redirect to https
             app.UseHttpsRedirection();
+
+            //adds the routing middleware 
             app.UseRouting();
 
+            //adds the middleware thats enable the authentication
             app.UseAuthentication();
+
+            //adds the middleware thats enable the authorization
             app.UseAuthorization();
 
+            //adds the middleware thas execute the current endpoint
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
